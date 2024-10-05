@@ -2,6 +2,7 @@
 // W tym edytorze możesz zapisać swój kod
 if(room != rm_start)
 {
+	end_game_timer = game_speed;
 	//current_level = real(string_delete(room_get_name(room), 1, 8))-1;
 	var _room_var_name = string_delete(room_get_name(room), 1, 3)+"_challenges";
 	var _challenges = variable_instance_get(self,_room_var_name);
@@ -18,14 +19,22 @@ if(room != rm_start)
 	}
 	
 	var _timer = instance_create_layer(0,0,layer,obj_timer);
-	_timer.time = game_get_speed(gamespeed_fps)*12;
+	//_timer.time = game_get_speed(gamespeed_fps)*12;
 	
 	with(obj_entity)
 		paused = true
 	
 	paused = true;
 	
-	upgrade_range.apply(obj_player.id);
+	for(var i = 0; i < array_length(upgrade_list); i++)
+	{
+		var _upgrade = upgrade_list[i];
+		_upgrade.apply(obj_player.id);
+	}
+	//upgrade_range.apply(obj_player.id);
+	
+	with(obj_player)
+		available_slashes = max_slashes;
 
 	
 }

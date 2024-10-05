@@ -29,7 +29,8 @@ if(room != rm_start)
 			paused = false;
 		
 	if(not instance_exists(obj_enemy))
-		room_goto(rm_start);
+		if(keyboard_check_pressed(vk_anykey) and end_game_timer <= 0)
+			room_goto(rm_start);
 }
 //else
 //{

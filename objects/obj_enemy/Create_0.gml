@@ -9,8 +9,8 @@ state = "wander"
 
 notice_range = 64;
 
-wander_x = room_width/2-x
-wander_y = room_height/2-y
+wander_x = room_width/2-x;
+wander_y = room_height/2-y;
 
 slow_strength = 0.85;
 

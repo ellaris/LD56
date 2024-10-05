@@ -28,6 +28,7 @@ Mosquito samurai chased by bandit flies
 		[ability upgrades, unique effects]
 			[phantom slash, create an extra slash effect]
 			[explosive slash, slashed enemies explode dealing damage around]
+			[slow motion lingers for 1 sec after striking]
 	[Side objectives for each map increasing difficulty]
 	[Character customization]
 	[Multiple characters]

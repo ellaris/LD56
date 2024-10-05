@@ -2,6 +2,8 @@
 // W tym edytorze możesz zapisać swój kod
 
 game_speed = game_get_speed(gamespeed_fps);
+level_button_columns = 5;
+end_game_timer = game_speed;
 
 function challenge(_text, _check) constructor {
 	value = 0;
@@ -32,24 +34,24 @@ function upgrade(_text, _spr, _var, _mult, _cost = 3) constructor {
 		return string("{0} stars <=> {1} ",cost,multiplayer)+text;
 	}
 	
-	draw = function(_xx,_yy)
+	draw = function(_xx,_yy, _exclusive)
 	{
 		var _hover = point_in_rectangle(device_mouse_x_to_gui(0),device_mouse_y_to_gui(0),
-			_xx,_yy,_xx+96,_yy+80);
+			_xx,_yy,_xx+128,_yy+80);
 		draw_set_color(c_lime);
 		if(value)
-			draw_rectangle(_xx,_yy,_xx+96,_yy+80,false);
+			draw_rectangle(_xx,_yy,_xx+128,_yy+80,false);
 			draw_set_color(c_blue);
 		if(_hover)
 			draw_set_color(c_aqua);
-		draw_rectangle(_xx,_yy,_xx+96,_yy+80,true);
-		draw_sprite(sprite,0,_xx+32,_yy+16)
+		draw_rectangle(_xx,_yy,_xx+128,_yy+80,true);
+		draw_sprite(sprite,0,_xx+64,_yy+16)
 		
 		draw_set_color(c_orange);
 		if(_hover)
 		{
-			draw_set_valign(fa_top);
-			draw_text_ext(_xx+0,_yy+80+4,get_text(),-1,96);
+			//draw_set_valign(fa_top);
+			draw_text_ext(_xx+0,_yy+96+4,get_text(),-1,128);
 			if(mouse_check_button_pressed(mb_left))
 			{
 				var _wratio = room_width/view_wport;
@@ -65,6 +67,19 @@ function upgrade(_text, _spr, _var, _mult, _cost = 3) constructor {
 				{
 					if(obj_control.stars >= cost)
 					{
+						var _paid = false;
+						if(array_contains(_exclusive,self))
+						for(var i = 0; i < array_length(_exclusive);i++)
+						{
+							var _item = _exclusive[i];
+							if(_item.value and _item != self)
+							{
+								_paid = true;
+								_item.value = 0;
+							}
+						}
+						
+						if(not _paid)
 						obj_control.stars -= cost;
 						value += 1;
 						repeat cost
@@ -128,7 +143,7 @@ check_challenge_no_river = function()
 check_challenge_12_sec = function()
 {
 	var _val = 0;
-	if((obj_timer.time div game_speed) < 12 )
+	if((obj_timer.time div game_speed) > 12 )
 		_val = -1;
 	if(instance_number(obj_enemy) <= 0)
 		_val = 1;
@@ -219,7 +234,7 @@ challenge_12_sec = new challenge("Kill all enemies within 15 seconds",check_chal
 challenge_no_river = new challenge("Kill all enemies without crossing the river",check_challenge_no_river);
 challenge_move_tutorial =  new challenge("Move with W A S D keys or the arrow keys",check_challenge_move_tutorial);
 challenge_attack_tutorial =  new challenge("Hold the Space key to slash enemies within range, you can start slashing 3 times",check_attack_tutorial);
-challenge_exhaust_tutorial = new challenge("Hold the slash key for a second to become exhausted",check_exhaust_tutorial)
+challenge_exhaust_tutorial = new challenge("Hold the slash key for half a second with no enemies in range to become exhausted",check_exhaust_tutorial)
 challenge_collect_gold = new challenge("Collect the gold",check_challenge_collect_gold);
 challenge_gold_before_attack = new challenge("Collect the gold before slashing",check_challenge_gold_before_attack);
 challenge_perfect_no_buffs = new challenge("Have all previous stars unspent",check_challenge_perfect_no_buffs);
@@ -227,16 +242,29 @@ challenge_perfect_no_buffs = new challenge("Have all previous stars unspent",che
 
 level_challenges = []
 level1_challenges = [challenge_move_tutorial, challenge_attack_tutorial]
-level2_challenges = [challenge_exhaust_tutorial, challenge_1_slash]
+level2_challenges = [challenge_exhaust_tutorial, challenge_gold_before_attack]
 level3_challenges = [challenge_2_cactus_kills, challenge_no_river]
 level4_challenges = [challenge_no_river, challenge_12_sec]
 level5_challenges = [challenge_1_slash, challenge_12_sec]
 level6_challenges = [challenge_perfect_no_buffs, challenge_1_slash]
-level7_challenges = [challenge_perfect_no_buffs, challenge_1_slash]
+level7_challenges = [challenge_no_movement, challenge_1_slash]
+level8_challenges = [challenge_gold_before_attack, challenge_12_sec]
+level9_challenges = [challenge_no_movement, challenge_1_slash]
 
-level_stars = [0,0,0,0,0,0,0]
+level_stars = [0,0,0,0,0,0,0,0]
 current_level = -1;
 
 stars = 0;
 
-upgrade_range = new upgrade("Range",spr_star,"slash_range",32,3);
+upgrade_range = new upgrade("Range",spr_star,"slash_range",32,2);
+upgrade_speed = new upgrade("Speed",spr_star,"move_speed",0.4,5);
+upgrade_cd = new upgrade("CoolDown",spr_star,"slash_cd_max",-10,6);
+upgrade_damage = new upgrade("Damage",spr_star,"slash_damage",1,3);
+upgrade_slash = new upgrade("Extra slash",spr_star,"max_slashes",1,6);
+
+upgrade_phantom = new upgrade("Phantom slash",spr_star,"slash_phantom",1,10);
+upgrade_aoe = new upgrade("Area slash",spr_star,"slash_aoe",1,10);
+upgrade_invisible = new upgrade("Hidden slash",spr_star,"slash_invisibility",1,10);
+
+upgrade_exclusive = [upgrade_phantom, upgrade_aoe, upgrade_invisible]
+upgrade_list = [upgrade_range, upgrade_speed, upgrade_cd, upgrade_damage, upgrade_slash, upgrade_phantom, upgrade_aoe, upgrade_invisible]

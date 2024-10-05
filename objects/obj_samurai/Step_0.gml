@@ -3,14 +3,20 @@
 
 event_inherited();
 
+if(paused or dead)
+	exit
+
 // movement
 var _horizontal = keyboard_check(ord("D"))-keyboard_check(ord("A")) + keyboard_check(vk_right)-keyboard_check(vk_left);
 var _vertical = keyboard_check(ord("S"))-keyboard_check(ord("W")) + keyboard_check(vk_down)-keyboard_check(vk_up);
 
 if(not slashing and not exhausted)
 {
-	x += _horizontal;
-	y += _vertical;
+	var _dir = point_direction(0,0,_horizontal,_vertical)
+	if(_horizontal != 0)
+		x += lengthdir_x(move_speed, _dir);
+	if(_vertical != 0)
+		y += lengthdir_y(move_speed, _dir);
 }
 
 // tick down variable timers
