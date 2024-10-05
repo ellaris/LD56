@@ -1,9 +1,12 @@
 /// @description Wstaw opis w tym miejscu
 // W tym edytorze możesz zapisać swój kod
 
+event_inherited();
+
 max_slashes = 3;
 available_slashes = max_slashes;
 move_speed = 2;
+
 
 game_speed = game_get_speed(gamespeed_fps);
 
@@ -22,6 +25,6 @@ phantom = false;
 
 // upgrades
 slash_aoe = false;
-slash_invisibility = true;
+slash_invisibility = false;
 slash_phantom = false;
 

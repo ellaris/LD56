@@ -31,3 +31,10 @@ Mosquito samurai chased by bandit flies
 	[Side objectives for each map increasing difficulty]
 	[Character customization]
 	[Multiple characters]
+	[touchscreen support]
+	
+levels designed for the special abilities (for obnus objectives)
+	level with two paths
+	level with enemies and gold far apart
+	level with stacked enemies except for last one
+	

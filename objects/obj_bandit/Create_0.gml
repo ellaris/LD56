@@ -17,7 +17,7 @@ slow_strength = 0.85;
 attack_charge = 0;
 attack_time = obj_player.game_speed*1/2;
 
-if(abs(wander_x) > abs(wander_y))
+if(abs(wander_x)/room_width > abs(wander_y)/room_height)
 {
 	wander_x = sign(wander_x)
 	wander_y = 0;

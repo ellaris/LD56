@@ -1,8 +1,10 @@
 /// @description Wstaw opis w tym miejscu
 // W tym edytorze możesz zapisać swój kod
 
-
-
+if(paused)
+{
+	speed = 0;
+}
 if(push_strength > 0)
 {
 	x += lengthdir_x(push_strength, push_direction);

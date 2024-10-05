@@ -3,6 +3,9 @@
 
 event_inherited()
 
+if(paused)
+	exit
+
 var _slow_mow = (1- (slow_strength *obj_player.slashing));
 var _ms = move_speed * _slow_mow;
 
@@ -10,11 +13,20 @@ var _ms = move_speed * _slow_mow;
 if((wander_x < 0 and x <= 32) or (wander_x > 0 and x >= room_width-32))
 	wander_x *= -1;
 	
-if((wander_y < 0 and y <= 32) or (wander_y > 0 and y >= room_width-32))
+if((wander_y < 0 and y <= 32) or (wander_y > 0 and y >= room_height-32))
 	wander_y *= -1;
 
 if( hp <= 0)
+{
+	var _body = instance_create_layer(x,y,layer,obj_body);
+	_body.sprite_index = sprite_index;
+	_body.push_direction = push_direction;
+	_body.push_strength = push_strength;
+	_body.slow_strength = slow_strength;
+	_body.image_alpha = 0.75;
 	instance_destroy();
+}
+	//instance_change(obj_body,true);
 	
 if(state == "wander")
 {

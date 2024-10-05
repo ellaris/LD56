@@ -1,9 +1,11 @@
 /// @description Wstaw opis w tym miejscu
 // W tym edytorze możesz zapisać swój kod
 
-push_direction = 0;
-push_strength = 0;
+event_inherited()
+if(paused)
+	exit
 
-paused = false;
 
-
+time += 1;
+if(time <= 0)
+	instance_destroy()

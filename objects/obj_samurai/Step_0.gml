@@ -1,6 +1,8 @@
 /// @description Wstaw opis w tym miejscu
 // W tym edytorze możesz zapisać swój kod
 
+event_inherited();
+
 // movement
 var _horizontal = keyboard_check(ord("D"))-keyboard_check(ord("A")) + keyboard_check(vk_right)-keyboard_check(vk_left);
 var _vertical = keyboard_check(ord("S"))-keyboard_check(ord("W")) + keyboard_check(vk_down)-keyboard_check(vk_up);
