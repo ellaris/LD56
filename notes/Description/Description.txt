@@ -7,3 +7,23 @@ As you fly over an area send groups of locust to consume everything in your way,
 	
 you are being chased by a gang and are wounded and can only perform 3 slashes,
 	each slash can combo onto nearby enemies
+	
+	
+Mosquito samurai chased by bandit flies
+	enemies move slowly across the map until player is noticed or attacks
+	multiple levels
+	continous slashing of enemies
+	cool slashing "animation" effects
+		visual slash
+		[screen shake]
+		[blood splatter]
+	different enemy types
+		normal
+		[multiple hp]
+		[fast]
+		[shooting]
+	[character upgrades]
+		stat upgrades (speed, slash speed, slash distance, damage(1->2))
+		[ability upgrades, unique effects]
+	[Side objectives for each map increasing difficulty]
+	[Character customization]
