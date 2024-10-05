@@ -1,0 +1,9 @@
+Lead ants from top of the screen to bottom,
+	dig tunnels for them to move through,
+	fog of war hides dangers and resources
+	
+As you fly over an area send groups of locust to consume everything in your way,
+	gather food to enchance your locust's power (gravity down -> gravity up -> search sideways)
+	
+you are being chased by a gang and are wounded and can only perform 3 slashes,
+	each slash can combo onto nearby enemies

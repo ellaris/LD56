@@ -34,6 +34,7 @@
     "IDEVersion": "2023.11.0.121",
   },
   "resources": [
+    {"id":{"name":"Description","path":"notes/Description/Description.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
   ],
   "RoomOrderNodes": [
