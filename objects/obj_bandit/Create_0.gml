@@ -1,5 +1,6 @@
 /// @description Wstaw opis w tym miejscu
 // W tym edytorze możesz zapisać swój kod
+event_inherited()
 
 hp = 1;
 move_speed = 2.2;

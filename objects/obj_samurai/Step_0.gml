@@ -40,6 +40,18 @@ if(slashing)
 	{
 		slashing = false;
 		slash_exhaust_charge = 0;
+		
+		if(slash_invisibility)
+		{
+			with(obj_enemy)
+			{
+				state = "wander"
+			}
+			var _incident = instance_create_layer(x,y,layer,obj_incident);
+			_incident.image_blend = c_dkgrey;
+			_incident.image_speed = 1.5;
+			_incident.owner = self;
+		}
 	}
 	else
 	{
@@ -62,13 +74,6 @@ if(slashing)
 				x += lengthdir_x(slash_range, _dir);
 				y += lengthdir_y(slash_range, _dir);
 				
-				if(slash_invisibility)
-				{
-					with obj_enemy
-					{
-						state = "wander"
-					}
-				}
 			}
 		}
 		
