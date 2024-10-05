@@ -16,5 +16,16 @@
     {"name":"Extensions","order":14,"path":"folders/Extensions.yy",},
     {"name":"Particle Systems","order":15,"path":"folders/Particle Systems.yy",},
   ],
-  "ResourceOrderSettings": [],
+  "ResourceOrderSettings": [
+    {"name":"spr_samurai_exhausted","order":4,"path":"sprites/spr_samurai_exhausted/spr_samurai_exhausted.yy",},
+    {"name":"obj_samurai","order":2,"path":"objects/obj_samurai/obj_samurai.yy",},
+    {"name":"spr_attack","order":3,"path":"sprites/spr_attack/spr_attack.yy",},
+    {"name":"obj_attack","order":6,"path":"objects/obj_attack/obj_attack.yy",},
+    {"name":"obj_bandit","order":4,"path":"objects/obj_bandit/obj_bandit.yy",},
+    {"name":"spr_bandit","order":1,"path":"sprites/spr_bandit/spr_bandit.yy",},
+    {"name":"obj_player","order":1,"path":"objects/obj_player/obj_player.yy",},
+    {"name":"obj_slash","order":5,"path":"objects/obj_slash/obj_slash.yy",},
+    {"name":"obj_enemy","order":3,"path":"objects/obj_enemy/obj_enemy.yy",},
+    {"name":"spr_slash","order":2,"path":"sprites/spr_slash/spr_slash.yy",},
+  ],
 }
