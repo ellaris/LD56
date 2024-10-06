@@ -8,9 +8,9 @@ end_cutscene = false;
 special_cutscene = false;
 cheat = false;
 
-//audio_group_load(ag_music);
-//audio_group_load(ag_sfx);
-//audio_group_load(ag_voice);
+audio_group_load(ag_music);
+audio_group_load(ag_sfx);
+audio_group_load(ag_voice);
 
 first_music = true;
 music = audio_play_sound(snd_music_menu,4,true);
@@ -363,8 +363,8 @@ challenge_2_cactus_kills = new challenge("Kill 2 enemies using a cactus", check_
 challenge_no_movement = new challenge("Kill all enemies without moving",check_challenge_no_movement);
 challenge_12_sec = new challenge("Kill all enemies within 12 seconds",check_challenge_12_sec);
 challenge_no_river = new challenge("Kill all enemies without crossing the river",check_challenge_no_river);
-challenge_move_tutorial =  new challenge("Move with W A S D keys or the arrow keys",check_challenge_move_tutorial);
-challenge_attack_tutorial =  new challenge("Hold Space to start slashing enemies who enter range, you can start slashing 3 times",check_attack_tutorial);
+challenge_move_tutorial =  new challenge("Move the little red ladybug on the left using W A S D keys or the arrow keys",check_challenge_move_tutorial);
+challenge_attack_tutorial =  new challenge("Hold Space to start slashing enemies who enter your range, you can start slashing 3 times",check_attack_tutorial);
 challenge_exhaust_tutorial = new challenge("Hold the slash key for half a second with no enemies in range to become exhausted",check_exhaust_tutorial)
 challenge_collect_gold = new challenge("Collect the gold",check_challenge_collect_gold);
 challenge_gold_before_attack = new challenge("Collect the gold before slashing",check_challenge_gold_before_attack);
@@ -424,11 +424,13 @@ slider_voice = new slider("Voice",ag_voice,50);
 //show_debug_message(asset_get_index("ag_music"))
 
 slider_list = [slider_music, slider_sfx, slider_voice];
+screenshake = true;
 
 checkbox_range = new checkbox("Display range","show_ranges",0);
 checkbox_touchpad = new checkbox("Touchscreen","touchpad_controls",0);
+checkbox_screenshake = new checkbox("Screenshake","screenshake",1);
 
-checkbox_list = [checkbox_range,checkbox_touchpad];
+checkbox_list = [checkbox_range,checkbox_screenshake];
 
 show_ranges = false;
 touchpad_controls = false;
@@ -438,3 +440,24 @@ button_restart = new button("Restart",room_restart);
 button_back = new button("Back",room_goto,[rm_start]);
 
 //music = audio_play_sound(snd_music_menu,4,true);
+
+part_system = part_system_create();
+
+part_type_blood = part_type_create();
+part_type_color2(part_type_blood,c_red,c_maroon);
+part_type_direction(part_type_blood,0,360,0,0.1);
+part_type_life(part_type_blood,game_speed,game_speed*2);
+part_type_speed(part_type_blood,0.3,0.6,-0.01,0);
+
+part_type_star = part_type_create();
+part_type_life(part_type_star,5,15);
+part_type_sprite(part_type_star,spr_star,false,false,false);
+part_type_direction(part_type_star,0,0,1,0);
+part_type_size(part_type_star,0.6,0.6,-0.05,0);
+
+part_type_dirt = part_type_create();
+part_type_life(part_type_dirt,15,20);
+//part_type_sprite(part_type_dirt,spr_star,false,false,false);
+//part_type_direction(part_type_dirt,0,0,1,0);
+//part_type_size(part_type_dirt,0.6,0.6,-0.05,0);
+part_type_alpha2(part_type_dirt,1,0);

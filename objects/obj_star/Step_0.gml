@@ -1,7 +1,7 @@
 /// @description Wstaw opis w tym miejscu
 // W tym edytorze możesz zapisać swój kod
 
-
+part_particles_create(obj_control.part_system,x,y,obj_control.part_type_star,1);
 
 move_towards_point(target_x,target_y,speed);
 speed += 0.04;

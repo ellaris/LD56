@@ -9,9 +9,14 @@ if(paused)
 var _slow_mow = (1- (slow_strength *(obj_player.slashing or obj_player.slow_linger)));
 var _ms = move_speed * _slow_mow;
 
-step += step_tend*_ms/(obj_control.game_speed);
+step += step_tend*_ms/(obj_control.game_speed/6);
 if(abs(step) >= abs(step_tend))
+{
+	step = step_tend;
 	step_tend *= -1;
+	part_particles_create(obj_control.part_system,x,bbox_bottom,obj_control.part_type_dirt,1);
+}
+
 
 // flip patrolloing
 if((wander_x < 0 and x <= 32) or (wander_x > 0 and x >= room_width-32))
@@ -66,6 +71,8 @@ if(state == "attack")
 	attack_charge += 1*_slow_mow;
 	if(attack_charge >= attack_time and not obj_player.dead)
 	{
+		audio_play_sound(snd_defeat,1,false);
+		part_particles_create(obj_control.part_system,obj_player.x,obj_player.y,obj_control.part_type_blood,40);
 		attack_charge = 0;
 		obj_player.dead = true;
 		var _incident = instance_create_layer(x,y,layer,obj_incident);

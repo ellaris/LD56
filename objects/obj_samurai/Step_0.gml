@@ -17,6 +17,12 @@ if(not slashing and not exhausted)
 		x += lengthdir_x(move_speed, _dir);
 	if(_vertical != 0)
 		y += lengthdir_y(move_speed, _dir);
+	if(_horizontal != 0 or _vertical != 0)
+	{
+		image_angle = sin(obj_timer.time/(4/move_speed))*4;
+		if(sin(obj_timer.time))
+			part_particles_create(obj_control.part_system,x,bbox_bottom,obj_control.part_type_dirt,1);
+	}
 }
 
 // tick down variable timers
@@ -87,6 +93,9 @@ if(slashing)
 				
 				if(slash_linger)
 					slow_linger = game_speed;
+					
+				if(obj_control.screenshake)
+					camera_set_view_angle(view_get_camera(0),camera_get_view_angle(view_get_camera(0))+(irandom(1)-0.5)*4);
 			}
 		}
 		
@@ -119,3 +128,4 @@ if(bbox_right > room_width)
 	x += room_width-bbox_right;
 if(bbox_left < 0)
 	x -= bbox_left;
+	

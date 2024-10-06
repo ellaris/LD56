@@ -12,6 +12,8 @@ if(_enemy)
 	audio_play_sound(snd_bounce,3,false);
 	if(_enemy.hp <= 0)
 		kills += 1;
+	direction += (irandom(1)-0.5)*30;
+	grow += 0.1;
 }
 
 var _player = instance_place(x,y,obj_player);
@@ -24,4 +26,25 @@ if(_player)
 	audio_play_sound(snd_bounce,3,false);
 	//if(_enemy.hp <= 0)
 	//	kills += 1;
+	direction += (irandom(1)-0.5)*30;
+	grow += 0.1;
+}
+
+image_angle += angle_difference(direction,image_angle)/10;
+
+if(direction != 0)
+{
+	direction += angle_difference(0,direction)/50;
+}
+
+if(grow > 0 and image_xscale < 1+grow)
+{
+	image_xscale += 0.025;
+	image_yscale += 0.025;
+}
+else if(image_xscale > 1)
+{
+	grow = 0;
+	image_xscale -= 0.01;
+	image_yscale -= 0.01;	
 }

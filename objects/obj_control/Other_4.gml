@@ -58,7 +58,7 @@ else
 	var _stars = 0;
 	for(var i = 0; i < array_length(level_stars); i++)
 		_stars += level_stars[i]
-	if(_stars == array_length(level_stars)*3 and not cheat)
+	if(_stars == array_length(level_stars)*3 and not cheat and not special_cutscene)
 	{
 		var _t = 0.5;
 		if(instance_exists(obj_cutscene))
@@ -69,17 +69,17 @@ else
 		_cutscene.time = _t;
 	}
 	
-	if(not first_music)
+	//if(not first_music)
 	{
 		var _c = audio_sound_get_track_position(music)* audio_sound_length(snd_music_menu)/audio_sound_length(snd_music);
 		audio_stop_sound(music);
 		music = audio_play_sound(snd_music_menu,4,true);
 		audio_sound_set_track_position(music,_c);
 	}
-	else
-	{
-		music = audio_play_sound(snd_music_menu,4,true);
-		first_music = false;
-	}
+	//else
+	//{
+	//	music = audio_play_sound(snd_music_menu,4,true);
+	//	first_music = false;
+	//}
 }
 

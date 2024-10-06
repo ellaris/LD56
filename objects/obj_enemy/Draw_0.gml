@@ -11,4 +11,4 @@ if(obj_control.show_ranges)
 	draw_set_alpha(1);
 }
 
-draw_sprite_ext(sprite_index,image_index,x,y,image_xscale,image_yscale,image_angle+sign(step)*3,image_blend,image_alpha);
+draw_sprite_ext(sprite_index,image_index,x,y,image_xscale,image_yscale,image_angle+step*5,image_blend,image_alpha);

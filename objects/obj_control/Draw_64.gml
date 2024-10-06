@@ -18,6 +18,9 @@ if(room != rm_start)
 		_yy += 32;
 	}
 	
+	draw_set_halign(fa_center);
+	draw_set_valign(fa_middle);
+	draw_set_font(fnt_big);
 	if(paused)
 		draw_text(view_wport/2,view_hport/2,"Press any key to start\nPress R to restart\nPres Esc to go back")
 	draw_set_alpha(1-end_game_timer/game_speed);
@@ -37,6 +40,9 @@ if(room != rm_start)
 		button_back.draw(view_wport/2+32,view_hport-64-32)
 	}
 	draw_set_alpha(1);
+	draw_set_halign(fa_left);
+	draw_set_valign(fa_top);
+	draw_set_font(fnt_default);
 }
 else
 {

@@ -6,11 +6,15 @@ if(keyboard_check_pressed(vk_f12))
 	for(var i = 0; i < array_length(level_stars); i++)
 		level_stars[i] = 3;
 	stars = array_length(level_stars)*3;
-	cheat = true;
+	//cheat = true;
 }
 
 if(room != rm_start)
 {
+	var _angle = camera_get_view_angle(view_get_camera(0));
+	if(_angle != 0)
+	camera_set_view_angle(view_get_camera(0),_angle+sign(angle_difference(0,_angle)));
+	
 	if(keyboard_check_pressed(ord("R")))
 		room_restart();
 	

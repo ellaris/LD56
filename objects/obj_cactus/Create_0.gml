@@ -5,3 +5,4 @@
 
 
 kills = 0;
+grow = 0;

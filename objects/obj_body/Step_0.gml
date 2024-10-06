@@ -12,6 +12,7 @@ if(image_alpha < 0.55 and not exploded)
 	exploded = true;
 	audio_play_sound(snd_hit,2,false);
 	// particles
+	part_particles_create(obj_control.part_system,x,y,obj_control.part_type_blood,10);
 }
 
 
