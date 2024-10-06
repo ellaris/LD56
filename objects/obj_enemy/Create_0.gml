@@ -5,6 +5,9 @@ event_inherited()
 hp = 1;
 move_speed = 2.2;
 
+step = choose(-1,-0.5,0,0.5,1);
+step_tend = 1;
+
 state = "wander"
 
 notice_range = 64;

@@ -24,6 +24,8 @@ if(slash_cd > 0)
 	slash_cd -= 1;
 if(exhausted > 0)
 	exhausted -= 1;
+if(slow_linger > 0)
+	slow_linger -= 1;
 
 // begin slashing
 var _slash_press = keyboard_check(vk_space)
@@ -82,6 +84,8 @@ if(slashing)
 				x += lengthdir_x(slash_range, _dir);
 				y += lengthdir_y(slash_range, _dir);
 				
+				if(slash_linger)
+					slow_linger = game_speed;
 			}
 		}
 		
@@ -104,3 +108,13 @@ else
 	
 if(phantom and not slashing)
 	instance_destroy();
+	
+if(bbox_top < 0)
+	y -= bbox_top;
+if(bbox_bottom > room_height)
+	y += room_height-bbox_bottom;
+	
+if(bbox_right > room_width)
+	x += room_width-bbox_right;
+if(bbox_left < 0)
+	x -= bbox_left;

@@ -53,9 +53,9 @@ else
 			draw_rectangle(_xx+32,_yy+64,_xx+32+96,_yy+64+64,false);
 		}
 		// active / inactive colors
-		draw_set_color(c_dkgrey)
+		draw_set_color(c_olive)
 		if(_last_stars)
-			draw_set_color(c_ltgray)
+			draw_set_color(c_orange)
 		
 		draw_rectangle(_xx+32,_yy+64,_xx+32+96,_yy+64+64,true);
 		
@@ -74,24 +74,30 @@ else
 		}
 	}
 	
+	draw_set_alpha(1);
+	draw_set_color(c_white);
 	// display shop "buttons"
-	_xx = view_wport-256-128-128;
-	_yy = 32;
+	_xx = view_wport-256-128;
+	_yy = 64;
 	
-	
-	for(var i = 0; i < array_length(upgrade_list); i++)
+	if(stars)
 	{
-		var _upgrade = upgrade_list[i];
-		_upgrade.draw(_xx+(i div 5)*160,_yy+128*(i mod 5), upgrade_exclusive);
+		draw_text(_xx,_yy-16,"Upgrades:")
+		for(var i = 0; i < array_length(upgrade_list); i++)
+		{
+			var _upgrade = upgrade_list[i];
+			_upgrade.draw(_xx+(i div 5)*160,_yy+128*(i mod 5), upgrade_exclusive);
+		}
 	}
 	//upgrade_range.draw(view_wport-256-128,32);
-	
 	//upgrade_speed.draw();
 	//upgrade_cd.draw();
 	//upgrade_damage();
 	
+	draw_set_color(c_orange);
 	// display options audo sliders and touch screen support
-	
+	display_list(view_wport*2/5+32,64,1,slider_list);
+	display_list(view_wport*2/5+32,64+64,2,checkbox_list);
 	// character select
 }
 draw_set_color(c_white);

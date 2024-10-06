@@ -18,6 +18,8 @@ slash_exhaust_charge = 0;
 slash_range = 48;
 slash_damage = 1;
 
+slow_linger = 0;
+
 exhausted = 0;
 dead = false;
 
@@ -27,4 +29,5 @@ phantom = false;
 slash_aoe = false;
 slash_invisibility = false;
 slash_phantom = false;
+slash_linger = false;
 

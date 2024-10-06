@@ -6,8 +6,12 @@ event_inherited()
 if(paused)
 	exit
 
-var _slow_mow = (1- (slow_strength *obj_player.slashing));
+var _slow_mow = (1- (slow_strength *(obj_player.slashing or obj_player.slow_linger)));
 var _ms = move_speed * _slow_mow;
+
+step += step_tend*_ms/(obj_control.game_speed);
+if(abs(step) >= abs(step_tend))
+	step_tend *= -1;
 
 // flip patrolloing
 if((wander_x < 0 and x <= 32) or (wander_x > 0 and x >= room_width-32))
