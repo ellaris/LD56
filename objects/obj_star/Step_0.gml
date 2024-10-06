@@ -14,6 +14,7 @@ if(mouse_check_button_pressed(mb_any))
 
 if(point_distance(x,y,target_x,target_y) <= 16)
 {
+	audio_play_sound(snd_star,1,false);
 	instance_destroy();
 	if(add)
 		obj_control.stars += 1;

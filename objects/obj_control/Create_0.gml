@@ -4,10 +4,53 @@
 game_speed = game_get_speed(gamespeed_fps);
 level_button_columns = 5;
 end_game_timer = game_speed;
+end_cutscene = false;
+special_cutscene = false;
+cheat = false;
 
-audio_group_load(ag_music)
-audio_group_load(ag_sfx)
-audio_group_load(ag_voice)
+//audio_group_load(ag_music);
+//audio_group_load(ag_sfx);
+//audio_group_load(ag_voice);
+
+first_music = true;
+music = audio_play_sound(snd_music_menu,4,true);
+//music = audio_play_sound(snd_music_menu,4,true);
+hover_sound = false;
+click_sound = false;
+hover = false;
+
+
+function button(_text, _method, _args = [], _width=128, _height=64, ) constructor {
+	
+	text = _text;
+	button_method = _method;
+	width = _width;
+	height = _height;
+	args = _args;
+	
+	draw = function(_xx, _yy){
+		var _hover = point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0),_xx,_yy,_xx+width,_yy+height);
+		
+		
+		if(_hover)
+		{
+			hover_sound();
+			draw_set_color(c_grey);
+			draw_rectangle(_xx,_yy,_xx+width,_yy+height,false);
+		}
+		draw_set_color(c_orange)
+		draw_rectangle(_xx,_yy,_xx+width,_yy+height,true);
+		draw_set_halign(fa_center);
+		draw_text(_xx+width/2,_yy+height/2,text)
+		
+		if(_hover and mouse_check_button(mb_left))
+		{
+			method_call(button_method,args);
+			audio_play_sound(snd_click,2,false);
+		}
+		draw_set_halign(fa_left);
+	}
+}
 
 function slider(_description, _group, _val = 100, _width = 96, _height = 32) constructor {
 	value = _val;
@@ -17,19 +60,31 @@ function slider(_description, _group, _val = 100, _width = 96, _height = 32) con
 	description = _description;
 	
 	apply = function(){
-		audio_group_set_gain(asset_get_index(audio_group), value, 0);
+		audio_group_set_gain(audio_group, value/100, 0);
 	}
 	
 	draw = function(_xx, _yy){
 		var _hover = point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0),_xx,_yy,_xx+width,_yy+height);
+		if(_hover)
+		{
+			hover_sound();
+			draw_set_color(c_grey);
+			draw_rectangle(_xx,_yy,_xx+width,_yy+height,false);
+		}
+		draw_set_color(c_orange)
 		draw_rectangle(_xx,_yy,_xx+width,_yy+height,true);
 		var _ratio = value/100*width;
 		draw_rectangle(_xx+_ratio+2,_yy+2,_xx+_ratio-2,_yy+height-2,false);
 		
-		draw_text(_xx,_yy+height+2+8,description)
+		draw_text(_xx,_yy+height+2+8,description+" "+string(round(value)))
 		
 		if(_hover and mouse_check_button(mb_left))
 		{
+			if(not obj_control.click_sound)
+			{
+				audio_play_sound(snd_click,2,false);
+				obj_control.click_sound = true;
+			}
 			value = (device_mouse_x_to_gui(0)-_xx)/width*100;
 			apply();
 		}
@@ -49,6 +104,14 @@ function checkbox(_description, _var, _val = false, _width = 32, _height = 32) c
 	
 	draw = function(_xx, _yy){
 		var _hover = point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0),_xx,_yy,_xx+width,_yy+height);
+		
+		if(_hover)
+		{
+			hover_sound();
+			draw_set_color(c_grey);
+			draw_rectangle(_xx,_yy,_xx+width,_yy+height,false);
+		}
+		draw_set_color(c_orange)
 		draw_rectangle(_xx,_yy,_xx+width,_yy+height,true);
 		if(value)
 			draw_rectangle(_xx+2,_yy+2,_xx+width-2,_yy+height-2,false);
@@ -57,6 +120,7 @@ function checkbox(_description, _var, _val = false, _width = 32, _height = 32) c
 		
 		if(_hover and mouse_check_button_pressed(mb_left))
 		{
+			audio_play_sound(snd_click,2,false);
 			value = not value;
 			apply();
 		}
@@ -100,9 +164,14 @@ function upgrade(_text, _spr, _var, _mult, _cost = 3) constructor {
 		draw_set_color(c_teal);
 		if(value)
 			draw_rectangle(_xx,_yy,_xx+128,_yy+80,false);
-			draw_set_color(c_blue);
-		if(_hover)
+		draw_set_color(c_blue);
+		if(_hover and (obj_control.stars >= cost or value))
+		{
+			hover_sound();
 			draw_set_color(c_aqua);
+		}
+		if(obj_control.stars < cost and not array_contains(_exclusive,self) and not value)
+			draw_set_color(c_red);
 		draw_rectangle(_xx,_yy,_xx+128,_yy+80,true);
 		draw_sprite_ext(sprite,0,_xx+64,_yy+40,2,2,0,c_white,1);
 		
@@ -113,10 +182,12 @@ function upgrade(_text, _spr, _var, _mult, _cost = 3) constructor {
 			draw_text_ext(_xx+0,_yy+96+4,get_text(),-1,128);
 			if(mouse_check_button_pressed(mb_left))
 			{
+				
 				var _wratio = room_width/view_wport;
 				var _hratio = room_height/view_hport;
 				if(value)
 				{
+					audio_play_sound(snd_click,2,false);
 					value = 0;
 					//obj_control.stars += cost
 					repeat cost
@@ -138,7 +209,7 @@ function upgrade(_text, _spr, _var, _mult, _cost = 3) constructor {
 					if(obj_control.stars >= cost or _paid)
 					{
 						
-						
+						audio_play_sound(snd_click,2,false);
 						if(not _paid)
 						obj_control.stars -= cost;
 						value += 1;
@@ -279,7 +350,7 @@ check_challenge_gold_before_attack = function()
 check_challenge_perfect_no_buffs = function()
 {
 	var _val = 0;
-	if(stars == (current_level+1)*3)
+	if(stars >= (current_level+1)*3)
 		_val = 1;
 	if(stars < (current_level+1)*3)
 		_val = -1;
@@ -293,7 +364,7 @@ challenge_no_movement = new challenge("Kill all enemies without moving",check_ch
 challenge_12_sec = new challenge("Kill all enemies within 12 seconds",check_challenge_12_sec);
 challenge_no_river = new challenge("Kill all enemies without crossing the river",check_challenge_no_river);
 challenge_move_tutorial =  new challenge("Move with W A S D keys or the arrow keys",check_challenge_move_tutorial);
-challenge_attack_tutorial =  new challenge("Hold the Space key to slash enemies within range, you can start slashing 3 times",check_attack_tutorial);
+challenge_attack_tutorial =  new challenge("Hold Space to start slashing enemies who enter range, you can start slashing 3 times",check_attack_tutorial);
 challenge_exhaust_tutorial = new challenge("Hold the slash key for half a second with no enemies in range to become exhausted",check_exhaust_tutorial)
 challenge_collect_gold = new challenge("Collect the gold",check_challenge_collect_gold);
 challenge_gold_before_attack = new challenge("Collect the gold before slashing",check_challenge_gold_before_attack);
@@ -311,7 +382,7 @@ level7_challenges = [challenge_no_movement, challenge_1_slash]
 level8_challenges = [challenge_gold_before_attack, challenge_12_sec]
 level9_challenges = [challenge_no_movement, challenge_1_slash]
 level10_challenges = [challenge_collect_gold, challenge_collect_gold]
-level11_challenges = [challenge_collect_gold, challenge_collect_gold]
+level11_challenges = [challenge_perfect_no_buffs, challenge_12_sec]
 
 level_stars = [0,0,0,0,0,0,0,0,0,0,0]
 current_level = -1;
@@ -327,7 +398,7 @@ upgrade_slash = new upgrade("Extra attacks",spr_icon_slashes,"max_slashes",1,6);
 upgrade_phantom = new upgrade("Phantom slash",spr_icon_phantom,"slash_phantom",1,10);
 upgrade_aoe = new upgrade("Area slash",spr_icon_aoe,"slash_aoe",1,10);
 upgrade_invisible = new upgrade("Hidden slash",spr_icon_hidden,"slash_invisibility",1,10);
-upgrade_linger = new upgrade("Residual slash",spr_icon_lingering,"slash_linger",1,10);
+upgrade_linger = new upgrade("Fast slash",spr_icon_lingering,"slash_linger",1,10);
 
 upgrade_exclusive = [upgrade_phantom, upgrade_aoe, upgrade_invisible,upgrade_linger]
 upgrade_list = [upgrade_range, upgrade_speed, upgrade_cd, upgrade_damage, upgrade_slash, upgrade_phantom, upgrade_aoe, upgrade_invisible, upgrade_linger]
@@ -346,9 +417,11 @@ display_list = function(_xx, _yy, _col_size, _list, _method = "draw", _args = []
 	}
 }
 
-slider_music = new slider("Music","ag_music",70);
-slider_sfx = new slider("SFX","ag_sfx",90);
-slider_voice = new slider("Voice","ag_voice",50);
+slider_music = new slider("Music",ag_music,70);
+slider_sfx = new slider("SFX",ag_sfx,90);
+slider_voice = new slider("Voice",ag_voice,50);
+
+//show_debug_message(asset_get_index("ag_music"))
 
 slider_list = [slider_music, slider_sfx, slider_voice];
 
@@ -359,3 +432,9 @@ checkbox_list = [checkbox_range,checkbox_touchpad];
 
 show_ranges = false;
 touchpad_controls = false;
+
+button_exit = new button("Quit",game_end);
+button_restart = new button("Restart",room_restart);
+button_back = new button("Back",room_goto,[rm_start]);
+
+//music = audio_play_sound(snd_music_menu,4,true);

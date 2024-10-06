@@ -35,7 +35,51 @@ if(room != rm_start)
 	
 	with(obj_player)
 		available_slashes = max_slashes;
-
+		 
+	var _c = audio_sound_get_track_position(music)* audio_sound_length(snd_music)/audio_sound_length(snd_music_menu);
+	audio_stop_sound(music);
+	music = audio_play_sound(snd_music,4,true);
+	audio_sound_set_track_position(music,_c);
 	
+}
+else
+{
+	if(level_stars[0] == 0)
+	{
+		var _cutscene = instance_create_layer(0,0,layer,obj_cutscene);
+	}
+	
+	if(level_stars[array_length(level_stars)-1] != 0 and not end_cutscene)
+	{
+		end_cutscene = true;
+		var _cutscene = instance_create_layer(0,0,layer,obj_cutscene);
+		_cutscene.state(2);
+	}
+	var _stars = 0;
+	for(var i = 0; i < array_length(level_stars); i++)
+		_stars += level_stars[i]
+	if(_stars == array_length(level_stars)*3 and not cheat)
+	{
+		var _t = 0.5;
+		if(instance_exists(obj_cutscene))
+		_t = -1.8;
+		special_cutscene = true;
+		var _cutscene = instance_create_layer(0,0,layer,obj_cutscene);
+		_cutscene.state(3);
+		_cutscene.time = _t;
+	}
+	
+	if(not first_music)
+	{
+		var _c = audio_sound_get_track_position(music)* audio_sound_length(snd_music_menu)/audio_sound_length(snd_music);
+		audio_stop_sound(music);
+		music = audio_play_sound(snd_music_menu,4,true);
+		audio_sound_set_track_position(music,_c);
+	}
+	else
+	{
+		music = audio_play_sound(snd_music_menu,4,true);
+		first_music = false;
+	}
 }
 

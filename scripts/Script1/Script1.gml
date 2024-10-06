@@ -11,3 +11,13 @@ function create_star(_cx,_cy,_tx = room_width-16, _ty = 16, _add = true)
 	_star.target_x = _tx;
 	_star.target_y = _ty;
 }
+
+function hover_sound()
+{
+	obj_control.hover = true;
+	if(not obj_control.hover_sound)
+	{
+		obj_control.hover_sound = true;
+		audio_play_sound(snd_hover,1,false);
+	}
+}

@@ -36,6 +36,8 @@ if(state == "wander")
 {
 	var _dist = distance_to_object(obj_player);
 	if(_dist <= notice_range)
+	{
+		audio_play_sound(snd_notice,4,false);
 		with(obj_enemy)
 		{
 			state = "chase"
@@ -44,6 +46,7 @@ if(state == "wander")
 			_incident.owner = self;
 			_incident.image_speed = 1.5;
 		}
+	}
 	
 	x += _ms*3/4*wander_x;
 	y += _ms*3/4*wander_y;

@@ -2,5 +2,5 @@
 // W tym edytorze możesz zapisać swój kod
 
 
-
-instance_destroy()
+audio_play_sound(snd_gold,3,false);
+instance_destroy();

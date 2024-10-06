@@ -6,6 +6,7 @@ if(keyboard_check_pressed(vk_f12))
 	for(var i = 0; i < array_length(level_stars); i++)
 		level_stars[i] = 3;
 	stars = array_length(level_stars)*3;
+	cheat = true;
 }
 
 if(room != rm_start)
@@ -25,12 +26,20 @@ if(room != rm_start)
 
 
 	if(paused and keyboard_check_pressed(vk_anykey))
+	{
 		with obj_entity
 			paused = false;
+		paused = false;
+	}
 		
 	if(not instance_exists(obj_enemy))
-		if(keyboard_check_pressed(vk_anykey) and end_game_timer <= 0)
+		if(keyboard_check_pressed(vk_anykey) and end_game_timer <= 0 and keyboard_lastchar != "r")
 			room_goto(rm_start);
+}
+else
+{
+	if(not audio_is_playing(music))	
+		music = audio_play_sound(snd_music_menu,4,true);
 }
 //else
 //{

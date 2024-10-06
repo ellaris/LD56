@@ -72,6 +72,7 @@ if(slashing)
 			var _dist = distance_to_object(_enemy);
 			if(slash_cd <= 0 and _dist <= slash_range)
 			{
+				audio_play_sound(snd_slash,2,false);
 				slash_cd = slash_cd_max;
 				slash_exhaust_charge = 0;
 				var _dir = point_direction(x,y,_enemy.x,_enemy.y);
